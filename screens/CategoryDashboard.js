@@ -1,16 +1,25 @@
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Image } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Image, Modal } from "react-native";
+import React,{useState} from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from "../consts/colors";
 import { Card } from "react-native-paper";
 import plants from '../consts/plants'
+import DeleteModal from "./DeleteModal";
 
 const Button = ({ onPress, style, icon }) => (
     <TouchableOpacity style={style} onPress={onPress}>
         <Icon name={icon} size={24} />
     </TouchableOpacity>
 )
-const CategoryDashboard = ({navigation}) => {
+const CategoryDashboard = ({ navigation }) => {
+    const [isModalVisible, setIsModalVisible] =useState(false);
+    const [chooseData, setchooseData] =useState();
+    const changeModalVisible = (bool) =>{
+        setIsModalVisible(bool)
+    }
+    const setData = (data) =>{
+        setchooseData(data)
+    }
     return (
         <SafeAreaView
             style={{
@@ -19,7 +28,7 @@ const CategoryDashboard = ({navigation}) => {
             }}>
             <View style={style.header}>
                 <Icon name="arrow-left" size={28} onPress={() => navigation.goBack()} />
-                <Icon name="bars" size={28} onPress={() => navigation.navigate("Dashboard")} />
+                <Icon name="plus" size={28} onPress={() => navigation.navigate("Dashboard")} />
             </View>
             <View style={{ flex: 1, paddingHorizontal: 10, backgroundColor: COLORS.white }}>
 
@@ -34,19 +43,19 @@ const CategoryDashboard = ({navigation}) => {
                             />
                             <View style={{ marginLeft: 20, marginTop: 5 }}>
                                 <Text style={{ fontSize: 22, fontWeight: '700' }}>{item.name}</Text>
-                                
+                                <Icon name="edit" style={{ padding: 10, marginLeft: 220, marginTop: -30 }} size={28} onPress={() => navigation.navigate("Dashboard")} />
+                                <Icon name="trash" style={{ padding: 10, marginLeft: 220 }} size={28} onPress={() => changeModalVisible(true) }/>
                             </View>
-                            
-                            <View style={{ marginLeft: -80, marginTop: 40, flexDirection:'row' }}>
-                            <Icon name="edit" style={{padding:20}} size={28} onPress={() => navigation.navigate("Dashboard")} />
-                                <Icon name="trash" style={{padding:20}} size={28} onPress={() => navigation.navigate("Dashboard")} />
-                            </View>
-                            
+
+
+
                         </View>
                     }}
+                   
                 />
 
             </View>
+            <Modal transparent={true} animationType='fade' visible={isModalVisible} nRequestClose={()=>changeModalVisible(false)}><DeleteModal changeModalVisible={changeModalVisible} setData={setData}/></Modal>
         </SafeAreaView>
     );
 };
