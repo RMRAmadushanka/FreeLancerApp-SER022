@@ -1,25 +1,36 @@
 import { SafeAreaView, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, FlatList, Dimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import COLORS from "../consts/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React from "react";
 import plants from '../consts/plants'
-const width = Dimensions.get("screen").width/2-30
-const Home = () => {
+const width = Dimensions.get("screen").width / 2 - 30
+const Home = ({navigation}) => {
     const categories = ['web design', 'Logo Design', 'Programming', "Artist"]
     const [categoryIndex, setcategoryIndex] = React.useState(0)
     const CategoryList = () => {
-        return <View style={style.categoryContainer}>
+        return(<View style={style.categoryContainer}>
             {categories.map((item, index) => (
-                <TouchableOpacity key={index} activeOpacity={0.8} onPress={() =>setcategoryIndex(index)} >
-                    <Text  style={[style.categoryText, categoryIndex == index && style.categoryTextSelected]}>{item}</Text>
+                <TouchableOpacity key={index} activeOpacity={0.8} onPress={() => setcategoryIndex(index)} >
+                    <Text style={[style.categoryText, categoryIndex === index && style.categoryTextSelected]}>{item}</Text>
                 </TouchableOpacity>
             ))}
         </View>
+        )
     }
-    const navigation = useNavigation();
-    const Card = (item) =>{
-        return <View style={style.card}></View>
+    
+    const Card = ({ plant }) => {
+        return (
+            <TouchableOpacity onPress={()=>navigation.navigate("HomeCategoryInfos", plant)}>
+                <View style={style.card}>
+                    <View style={{ height: 100, alignItems: "center" }}>
+                        <Image style={{ flex: 1, resizeMode: 'contain' }} source={plant.img} />
+                    </View>
+                    <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10, alignItems: "center" }}>
+                        {plant.name}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+        )
     }
     return (
         <SafeAreaView style={{ flex: 1, paddingHorizontal: 20, backgroundColor: COLORS.white }}>
@@ -27,7 +38,7 @@ const Home = () => {
             <View style={style.header}>
                 <View>
                     <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Welcome to</Text>
-                    <Text style={{ fontSize: 38, fontWeight: "bold", color: COLORS.blue }}>Freelancer</Text>
+                    <Text style={{ fontSize: 38, fontWeight: "bold", color: COLORS.blue }}>Truelancer</Text>
                 </View>
                 <Icon name="bars" size={28} />
             </View>
@@ -38,7 +49,7 @@ const Home = () => {
                 </View>
             </View>
             <CategoryList />
-            <FlatList columnWrapperStyle={{justifyContent:"space-between"}} numColumns={2} data={plants} renderItem={({item})=><Card plant={item}/>}/>
+            <FlatList columnWrapperStyle={{ justifyContent: "space-between" }} showsVerticalScrollIndicator={false} contentContainerStyle={{ marginTop: 10, paddingBottom: 50 }} numColumns={2} data={plants} renderItem={({ item }) =>{ return <Card plant={item} />}} />
         </SafeAreaView>
     );
 };
@@ -80,14 +91,14 @@ const style = StyleSheet.create({
         borderBottomWidth: 2,
         borderColor: COLORS.blue
     },
-    card:{
-        height:225,
-        backgroundColor:COLORS.light,
+    card: {
+        height: 225,
+        backgroundColor: COLORS.light,
         width,
-        marginHorizontal:2,
-        borderRadius:10,
-        marginBottom:20,
-        padding:15
+        marginHorizontal: 2,
+        borderRadius: 10,
+        marginBottom: 20,
+        padding: 15
     }
 })
 

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import Home from "./screens/Home";
 import Details from "./screens/Details";
+import HomeCategoryInfos from "./screens/HomeCategoryInfos";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       >
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Detail" component={Details} />
+        <Stack.Screen name="HomeCategoryInfos" component={HomeCategoryInfos} />
       </Stack.Navigator>
     </NavigationContainer>
   );
