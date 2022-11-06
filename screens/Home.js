@@ -3,10 +3,11 @@ import COLORS from "../consts/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React from "react";
 import plants from '../consts/plants'
-const width = Dimensions.get("screen").width / 2 - 30
+const width = Dimensions.get("window").width / 2 - 30
 const Home = ({navigation}) => {
-    const categories = ['web design', 'Logo Design', 'Programming', "Artist"]
     const [categoryIndex, setcategoryIndex] = React.useState(0)
+    const categories = ['web design', 'Logo Design', 'Programming', "Artist"]
+    
     const CategoryList = () => {
         return(<View style={style.categoryContainer}>
             {categories.map((item, index) => (
@@ -40,7 +41,7 @@ const Home = ({navigation}) => {
                     <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Welcome to</Text>
                     <Text style={{ fontSize: 38, fontWeight: "bold", color: COLORS.blue }}>Truelancer</Text>
                 </View>
-                <Icon name="bars" size={28} />
+                <Icon name="bars" size={28} onPress={()=>navigation.navigate("Dashboard")} />
             </View>
             <View style={{ marginTop: 30, flexDirection: 'row' }}>
                 <View style={style.searchContainer}>
